@@ -286,6 +286,15 @@ footer{padding-block:24px;color:var(--muted);font-size:13px;display:flex;justify
 <footer class="wrap"><span>© 2026 Luca Andrea De Cesare</span><a href="#inicio" data-i18n="top">Volver arriba ↑</a></footer>
 
 <script>
+document.addEventListener("error", e => {
+  const el = e.target;
+  if (!(el instanceof HTMLImageElement) || el.dataset.retried) return;
+  const src = el.getAttribute("src"); if (!src || /^https?:|^data:/.test(src)) return;
+  el.dataset.retried = "1";
+  el.setAttribute("src", src.startsWith("faltan/") ? src.slice(7) : "faltan/" + src);
+}, true);
+</script>
+<script>
 const FALTAN = new Set(["silla-19", "silla-2", "silla-20", "silla-22", "silla-24", "silla-25", "silla-6", "silla-7", "silla-9", "uefa-0", "uefa-1", "uefa-cover", "uefa-cover-poster", "valhalla-1", "valhalla-2", "valhalla-3", "valhalla-4", "valhalla-5", "valhalla-6", "valhalla-7", "valhalla-8", "valhalla-9", "yt-auroras", "yt-cyber"]);
 const F = n => (FALTAN.has(n) ? "faltan/" : "") + n;
 
@@ -390,7 +399,7 @@ cvBtn.addEventListener("click", async e => {
   const note = document.getElementById("cv-note");
   try {
     const blob = await (await fetch(cvBtn.getAttribute("href"))).blob();
-    await downloads.save({ filename: "Luca-De-Cesare-CV.pdf", data: blob });
+    await downloads.save({ filename: lang === "en" ? "Luca-De-Cesare-CV-EN.pdf" : "Luca-De-Cesare-CV.pdf", data: blob });
     note.hidden = true;
   } catch (err) {
     if (err && err.code === "declined") return;
@@ -402,6 +411,7 @@ cvBtn.addEventListener("click", async e => {
 const langBtns = document.querySelectorAll(".lang button");
 function setLang(l){
   lang = l;
+  cvBtn.setAttribute("href", l === "en" ? "luca-de-cesare-cv-en.pdf" : "luca-de-cesare-cv.pdf");
   document.documentElement.lang = l;
   document.querySelectorAll("[data-i18n]").forEach(el => { const v = (l === "en" ? EN : ES)[el.dataset.i18n]; if (v != null) el.innerHTML = v; });
   langBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === l)));

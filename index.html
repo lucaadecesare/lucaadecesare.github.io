@@ -286,6 +286,9 @@ footer{padding-block:24px;color:var(--muted);font-size:13px;display:flex;justify
 <footer class="wrap"><span>© 2026 Luca Andrea De Cesare</span><a href="#inicio" data-i18n="top">Volver arriba ↑</a></footer>
 
 <script>
+const FALTAN = new Set(["silla-19", "silla-2", "silla-20", "silla-22", "silla-24", "silla-25", "silla-6", "silla-7", "silla-9", "uefa-0", "uefa-1", "uefa-cover", "uefa-cover-poster", "valhalla-1", "valhalla-2", "valhalla-3", "valhalla-4", "valhalla-5", "valhalla-6", "valhalla-7", "valhalla-8", "valhalla-9", "yt-auroras", "yt-cyber"]);
+const F = n => (FALTAN.has(n) ? "faltan/" : "") + n;
+
 const P = "https://lucaadecesare1.myportfolio.com/";
 const projects = [
   {n:"Valhalla", en:{"cat": "Branding & product", "d": "Brand identity for a line of inflatable stand-up paddle boards: logotype, an isotype that blends a V with a trident, a color system and board graphics in four colorways, shown in product mockups."}, glow:"#d9a34e", y:2026, c:"producto", cat:"Branding y producto", s:"valhalla", d:"Identidad para una marca de tablas de stand up paddle inflables: logotipo, un isotipo que combina la V con un tridente, sistema de color y el diseño de las tablas en cuatro combinaciones, presentado en mockups de producto.", imgs:["valhalla-1","valhalla-2","valhalla-3","valhalla-4","valhalla-5","valhalla-6","valhalla-7","valhalla-8","valhalla-9"], pos:"center 50%"},
@@ -326,8 +329,8 @@ const desc = p => lang === "en" && p.en ? p.en.d : p.d;
 function renderGrid(){
 grid.innerHTML = projects.map((p, i) => `
   <a class="card" style="--glow:${p.glow || "var(--accent)"}" data-c="${p.c}" data-i="${i}" href="${p.url || P + p.s}" target="_blank" rel="noopener">
-    ${p.vid ? `<div class="cover has-img"><video src="${p.vid}.mp4" poster="${p.vid}-poster.jpg" autoplay muted loop playsinline aria-label="${esc(p.n)}"></video>${p.imgs.length > 1 ? `<span class="count">${p.imgs.length} ${t("pieces")}</span>` : ""}</div>`
-    : p.imgs ? `<div class="cover has-img"><img src="${p.imgs[0]}.jpg" alt="${esc(p.n)}: ${esc(cat(p))}" loading="lazy" style="object-position:${p.pos || "center"}">${p.imgs.length > 1 ? `<span class="count">${p.yt ? "▶ " + t("hasVideo") + " · " : ""}${p.imgs.length} ${t("pieces")}</span>` : ""}</div>`
+    ${p.vid ? `<div class="cover has-img"><video src="${F(p.vid)}.mp4" poster="${F(p.vid+"-poster")}.jpg" autoplay muted loop playsinline aria-label="${esc(p.n)}"></video>${p.imgs.length > 1 ? `<span class="count">${p.imgs.length} ${t("pieces")}</span>` : ""}</div>`
+    : p.imgs ? `<div class="cover has-img"><img src="${F(p.imgs[0])}.jpg" alt="${esc(p.n)}: ${esc(cat(p))}" loading="lazy" style="object-position:${p.pos || "center"}">${p.imgs.length > 1 ? `<span class="count">${p.yt ? "▶ " + t("hasVideo") + " · " : ""}${p.imgs.length} ${t("pieces")}</span>` : ""}</div>`
     : `<div class="cover c-${p.c}" role="img" aria-label="${t("coverOf")} ${esc(p.n)}">
       <span class="note">${t("pend")}</span>
       <span class="big">${esc(p.n)}</span>
@@ -354,7 +357,7 @@ grid.addEventListener("click", e => {
   document.getElementById("v-desc").textContent = desc(p) || "";
   const box = document.getElementById("v-imgs");
   box.className = "v-imgs" + (p.two ? " two" : "");
-  box.innerHTML = (p.clip ? `<video class="v-clip" src="${p.clip}.mp4" poster="${p.clip}-poster.jpg" controls playsinline preload="metadata"></video>` : "") + (p.yt ? `<a class="v-video" href="https://www.youtube.com/watch?v=${p.yt}" target="_blank" rel="noopener"><img src="${p.ytPoster}.jpg" alt=""><span class="v-play"><span class="v-tri" aria-hidden="true"></span>${t("video")} ↗</span></a>` : "") + p.imgs.map((f, k) => `<img${p.wide && p.wide.includes(f) ? ' class="wide"' : ""} src="${f}.jpg" alt="${esc(p.n)}, ${t("piece")} ${k + 1}">`).join("");
+  box.innerHTML = (p.clip ? `<video class="v-clip" src="${F(p.clip)}.mp4" poster="${F(p.clip+"-poster")}.jpg" controls playsinline preload="metadata"></video>` : "") + (p.yt ? `<a class="v-video" href="https://www.youtube.com/watch?v=${p.yt}" target="_blank" rel="noopener"><img src="${F(p.ytPoster)}.jpg" alt=""><span class="v-play"><span class="v-tri" aria-hidden="true"></span>${t("video")} ↗</span></a>` : "") + p.imgs.map((f, k) => `<img${p.wide && p.wide.includes(f) ? ' class="wide"' : ""} src="${F(f)}.jpg" alt="${esc(p.n)}, ${t("piece")} ${k + 1}">`).join("");
   viewer.showModal(); viewer.scrollTop = 0;
 });
 document.getElementById("v-close").addEventListener("click", () => viewer.close());

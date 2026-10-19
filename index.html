@@ -208,7 +208,7 @@ footer{padding-block:24px;color:var(--muted);font-size:13px;display:flex;justify
       <h1>Luca Andrea<span>De Cesare</span></h1>
       <p class="lede" data-i18n="lede">Diseño ideas que conectan estrategia y narrativa, desde un <em>ad</em> que convierte hasta un <em>stand</em> que se construye.</p>
     </div>
-    <figure class="photo"><img src="img/luca-sq.jpg" alt="Luca Andrea De Cesare" width="960" height="960"></figure>
+    <figure class="photo"><img src="luca-sq.jpg" alt="Luca Andrea De Cesare" width="960" height="960"></figure>
   </div>
 
   <section id="sobre-mi" class="profile-sec" aria-labelledby="t-sobre">
@@ -231,7 +231,7 @@ footer{padding-block:24px;color:var(--muted);font-size:13px;display:flex;justify
         <div class="blk"><h4 class="lbl" data-i18n="lg-h">Idiomas</h4>
           <ul class="chips" data-i18n="lg"><li>Español — Nativo</li><li>Inglés — Avanzado</li></ul></div>
         <div class="cta">
-          <a class="btn dark" id="cv-btn" href="img/luca-de-cesare-cv.pdf" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="cv-btn">Descargar CV</span></a>
+          <a class="btn dark" id="cv-btn" href="luca-de-cesare-cv.pdf" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="cv-btn">Descargar CV</span></a>
           <a class="btn ghost" href="#contacto" data-i18n="ct-btn">Contacto</a>
         </div>
         <p class="cv-note" id="cv-note" hidden></p>
@@ -326,8 +326,8 @@ const desc = p => lang === "en" && p.en ? p.en.d : p.d;
 function renderGrid(){
 grid.innerHTML = projects.map((p, i) => `
   <a class="card" style="--glow:${p.glow || "var(--accent)"}" data-c="${p.c}" data-i="${i}" href="${p.url || P + p.s}" target="_blank" rel="noopener">
-    ${p.vid ? `<div class="cover has-img"><video src="img/${p.vid}.mp4" poster="img/${p.vid}-poster.jpg" autoplay muted loop playsinline aria-label="${esc(p.n)}"></video>${p.imgs.length > 1 ? `<span class="count">${p.imgs.length} ${t("pieces")}</span>` : ""}</div>`
-    : p.imgs ? `<div class="cover has-img"><img src="img/${p.imgs[0]}.jpg" alt="${esc(p.n)}: ${esc(cat(p))}" loading="lazy" style="object-position:${p.pos || "center"}">${p.imgs.length > 1 ? `<span class="count">${p.yt ? "▶ " + t("hasVideo") + " · " : ""}${p.imgs.length} ${t("pieces")}</span>` : ""}</div>`
+    ${p.vid ? `<div class="cover has-img"><video src="${p.vid}.mp4" poster="${p.vid}-poster.jpg" autoplay muted loop playsinline aria-label="${esc(p.n)}"></video>${p.imgs.length > 1 ? `<span class="count">${p.imgs.length} ${t("pieces")}</span>` : ""}</div>`
+    : p.imgs ? `<div class="cover has-img"><img src="${p.imgs[0]}.jpg" alt="${esc(p.n)}: ${esc(cat(p))}" loading="lazy" style="object-position:${p.pos || "center"}">${p.imgs.length > 1 ? `<span class="count">${p.yt ? "▶ " + t("hasVideo") + " · " : ""}${p.imgs.length} ${t("pieces")}</span>` : ""}</div>`
     : `<div class="cover c-${p.c}" role="img" aria-label="${t("coverOf")} ${esc(p.n)}">
       <span class="note">${t("pend")}</span>
       <span class="big">${esc(p.n)}</span>
@@ -354,7 +354,7 @@ grid.addEventListener("click", e => {
   document.getElementById("v-desc").textContent = desc(p) || "";
   const box = document.getElementById("v-imgs");
   box.className = "v-imgs" + (p.two ? " two" : "");
-  box.innerHTML = (p.clip ? `<video class="v-clip" src="img/${p.clip}.mp4" poster="img/${p.clip}-poster.jpg" controls playsinline preload="metadata"></video>` : "") + (p.yt ? `<a class="v-video" href="https://www.youtube.com/watch?v=${p.yt}" target="_blank" rel="noopener"><img src="img/${p.ytPoster}.jpg" alt=""><span class="v-play"><span class="v-tri" aria-hidden="true"></span>${t("video")} ↗</span></a>` : "") + p.imgs.map((f, k) => `<img${p.wide && p.wide.includes(f) ? ' class="wide"' : ""} src="img/${f}.jpg" alt="${esc(p.n)}, ${t("piece")} ${k + 1}">`).join("");
+  box.innerHTML = (p.clip ? `<video class="v-clip" src="${p.clip}.mp4" poster="${p.clip}-poster.jpg" controls playsinline preload="metadata"></video>` : "") + (p.yt ? `<a class="v-video" href="https://www.youtube.com/watch?v=${p.yt}" target="_blank" rel="noopener"><img src="${p.ytPoster}.jpg" alt=""><span class="v-play"><span class="v-tri" aria-hidden="true"></span>${t("video")} ↗</span></a>` : "") + p.imgs.map((f, k) => `<img${p.wide && p.wide.includes(f) ? ' class="wide"' : ""} src="${f}.jpg" alt="${esc(p.n)}, ${t("piece")} ${k + 1}">`).join("");
   viewer.showModal(); viewer.scrollTop = 0;
 });
 document.getElementById("v-close").addEventListener("click", () => viewer.close());
